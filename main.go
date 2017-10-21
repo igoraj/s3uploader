@@ -15,8 +15,8 @@ func main() {
 	// display help function
 	flag.Usage = func() {
 		fmt.Printf("Usage: s3upload [options] <filename>\n\n")
-        fmt.Printf("  Set AWS_ACCESS_KEY and AWS_SECRET_KEY environmental variables.\n")
-        fmt.Printf("  before invoking this command.\n\n")
+		fmt.Printf("  Set AWS_ACCESS_KEY and AWS_SECRET_KEY environmental variables.\n")
+		fmt.Printf("  before invoking this command.\n\n")
 		flag.PrintDefaults()
 	}
 
