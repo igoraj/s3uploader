@@ -15,26 +15,25 @@ func main() {
 	// display help function
 	flag.Usage = func() {
 		fmt.Printf("Usage: s3upload [options] <filename>\n\n")
-        fmt.Printf("  Set AWS_ACCESS_KEY and AWS_SECRET_KEY environmental variables.\n")
-        fmt.Printf("  before invoking this command.\n\n")
+		fmt.Printf("  Set AWS_ACCESS_KEY and AWS_SECRET_KEY environmental variables.\n")
+		fmt.Printf("  before invoking this command.\n\n")
 		flag.PrintDefaults()
 	}
 
 	// parse flags
-	var region string
-	var endpoint string
-	flag.StringVar(&region, "region", "eu-geo", "region of your request")
-	flag.StringVar(&endpoint, "endpoint", "s3.eu-geo.objectstorage.softlayer.net", "authentication endpoint")
-	bucket := flag.String("bucket", "", "bucket")
+	var (
+		region   = flag.String("region", "eu-geo", "region of your request")
+		endpoint = flag.String("endpoint", "s3.eu-geo.objectstorage.softlayer.net", "authentication endpoint")
+		bucket   = flag.String("bucket", "", "bucket name")
+	)
 	flag.Parse()
 
 	// parse args
-	args := flag.Args()
-	if len(args) != 1 {
+	filename := flag.Arg(0)
+	if filename == "" {
 		flag.Usage()
 		os.Exit(1)
 	}
-	filename := args[0]
 
 	// open filename
 	file, err := os.Open(filename)
@@ -46,8 +45,8 @@ func main() {
 
 	// create session to object storage
 	sess := session.Must(session.NewSession((&aws.Config{
-		Region:   aws.String(region),
-		Endpoint: aws.String(endpoint),
+		Region:   aws.String(*region),
+		Endpoint: aws.String(*endpoint),
 	})))
 	svc := s3manager.NewUploader(sess)
 
