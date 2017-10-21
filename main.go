@@ -29,12 +29,11 @@ func main() {
 	flag.Parse()
 
 	// parse args
-	args := flag.Args()
-	if len(args) != 1 {
+	filename := flag.Arg(0)
+	if filename == "" {
 		flag.Usage()
 		os.Exit(1)
 	}
-	filename := args[0]
 
 	// open filename
 	file, err := os.Open(filename)
