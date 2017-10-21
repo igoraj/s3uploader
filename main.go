@@ -21,11 +21,11 @@ func main() {
 	}
 
 	// parse flags
-	var region string
-	var endpoint string
-	flag.StringVar(&region, "region", "eu-geo", "region of your request")
-	flag.StringVar(&endpoint, "endpoint", "s3.eu-geo.objectstorage.softlayer.net", "authentication endpoint")
-	bucket := flag.String("bucket", "", "bucket")
+	var (
+		region   = flag.String("region", "eu-geo", "region of your request")
+		endpoint = flag.String("endpoint", "s3.eu-geo.objectstorage.softlayer.net", "authentication endpoint")
+		bucket   = flag.String("bucket", "", "bucket name")
+	)
 	flag.Parse()
 
 	// parse args
@@ -46,8 +46,8 @@ func main() {
 
 	// create session to object storage
 	sess := session.Must(session.NewSession((&aws.Config{
-		Region:   aws.String(region),
-		Endpoint: aws.String(endpoint),
+		Region:   aws.String(*region),
+		Endpoint: aws.String(*endpoint),
 	})))
 	svc := s3manager.NewUploader(sess)
 
